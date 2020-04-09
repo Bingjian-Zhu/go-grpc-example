@@ -1,0 +1,23 @@
+syntax = "proto3";// 协议为proto3
+
+package proto;
+
+// 定义发送请求信息
+message SimpleRequest{
+    // 定义发送的参数
+    // 参数类型 参数名 标识号(不可重复)
+    string Data = 1;
+}
+
+// 定义响应信息
+message SimpleResponse{
+    // 定义接收的参数
+    // 参数类型 参数名 标识号(不可重复)
+    int32 Code = 1;
+    string Value = 2;
+}
+
+// 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
+service SimpleService{
+    rpc Route (SimpleRequest) returns (SimpleResponse);
+}
