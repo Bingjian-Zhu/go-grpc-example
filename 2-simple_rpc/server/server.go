@@ -7,7 +7,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "go-grpc-example/proto"
+	pb "go-grpc-example/2-simple_rpc/proto"
 )
 
 // SimpleService 定义我们的服务

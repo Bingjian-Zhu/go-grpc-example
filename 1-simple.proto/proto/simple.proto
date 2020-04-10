@@ -19,5 +19,5 @@ message SimpleResponse{
 
 // 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
 service Simple{
-    rpc Route (SimpleRequest) returns (SimpleResponse);
+    rpc Route (SimpleRequest) returns (SimpleResponse){};
 }
