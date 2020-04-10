@@ -23,7 +23,7 @@ func main() {
 	defer conn.Close()
 
 	// 建立gRPC连接
-	grpcClient := pb.NewSimpleServiceClient(conn)
+	grpcClient := pb.NewSimpleClient(conn)
 	// 创建发送结构体
 	req := pb.SimpleRequest{
 		Data: "grpc",
