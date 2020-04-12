@@ -9,10 +9,8 @@ import (
 	pb "go-grpc-example/2-simple_rpc/proto"
 )
 
-const (
-	// Address 连接地址
-	Address string = ":8000"
-)
+// Address 连接地址
+const Address string = ":8000"
 
 func main() {
 	// 连接服务器
