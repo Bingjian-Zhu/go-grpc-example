@@ -33,5 +33,5 @@ func main() {
 		log.Fatalf("Call Route err: %v", err)
 	}
 	// 打印返回值
-	log.Println(res)
+	log.Println(res.Value)
 }

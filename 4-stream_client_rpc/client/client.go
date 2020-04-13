@@ -47,16 +47,19 @@ func route() {
 
 // routeStr 调用服务端RouteList方法
 func routeList() {
+	//调用服务端RouteList方法，获流
 	stream, err := streamClient.RouteList(context.Background())
 	if err != nil {
 		log.Fatalf("Upload list err: %v", err)
 	}
 	for n := 0; n < 5; n++ {
-		err := stream.Send(&pb.StreamRequest{StreamStr: "stream client rpc " + strconv.Itoa(n)})
+		//向流中发送消息
+		err := stream.Send(&pb.StreamRequest{StreamData: "stream client rpc " + strconv.Itoa(n)})
 		if err != nil {
 			log.Fatalf("stream request err: %v", err)
 		}
 	}
+	//关闭流并获取返回的消息
 	res, err := stream.CloseAndRecv()
 	if err != nil {
 		log.Fatalf("RouteList get response err: %v", err)

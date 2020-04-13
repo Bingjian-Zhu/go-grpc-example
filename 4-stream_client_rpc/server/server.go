@@ -11,6 +11,7 @@ import (
 	pb "go-grpc-example/4-stream_client_rpc/proto"
 )
 
+// SimpleService 定义我们的服务
 type SimpleService struct{}
 
 // Route 实现Route方法
@@ -22,19 +23,20 @@ func (s *SimpleService) Route(ctx context.Context, req *pb.SimpleRequest) (*pb.S
 	return &res, nil
 }
 
-func (s *SimpleService) RouteList(stream pb.StreamClient_RouteListServer) error {
+// RouteList 实现RouteList方法
+func (s *SimpleService) RouteList(srv pb.StreamClient_RouteListServer) error {
 	for {
-		res, err := stream.Recv()
-		//接收消息结束，发送结果，并关闭
+		//从流中获取消息
+		res, err := srv.Recv()
 		if err == io.EOF {
-			return stream.SendAndClose(&pb.SimpleResponse{Value: "ok"})
+			//发送结果，并关闭
+			return srv.SendAndClose(&pb.SimpleResponse{Value: "ok"})
 		}
 		if err != nil {
 			return err
 		}
-		log.Println(res)
+		log.Println(res.StreamData)
 	}
-	return nil
 }
 
 const (

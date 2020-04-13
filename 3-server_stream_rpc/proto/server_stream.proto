@@ -19,12 +19,14 @@ message SimpleResponse{
 
 // 定义流式响应信息
 message StreamResponse{
-    string str = 1;
+    // 流式响应数据
+    string stream_value = 1;
 }
 
 // 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
 service StreamServer{
     rpc Route (SimpleRequest) returns (SimpleResponse){};
 
-    rpc ListStr(SimpleRequest)returns(stream StreamResponse){};
+    // 服务端流式rpc，在响应数据前添加stream
+    rpc ListValue(SimpleRequest)returns(stream StreamResponse){};
 }

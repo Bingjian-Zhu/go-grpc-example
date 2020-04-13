@@ -20,12 +20,13 @@ message SimpleResponse{
 // 定义流式请求信息
 message StreamRequest{
     //流式请求参数
-    string stream_str = 1;
+    string stream_data = 1;
 }
 
 // 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
 service StreamClient{
     rpc Route (SimpleRequest) returns (SimpleResponse){};
 
+    // 客户端流式rpc，在请求的参数前添加stream
     rpc RouteList (stream StreamRequest) returns (SimpleResponse){};
 }
