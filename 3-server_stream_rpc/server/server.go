@@ -29,7 +29,7 @@ func main() {
 	}
 	log.Println(Address + " net.Listing...")
 	// 新建gRPC服务器实例
-	// 默认接收最大消息长度为`1024*1024*4`bytes(4M)，发送消息最大长度为`math.MaxInt32`bytes
+	// 默认单次接收最大消息长度为`1024*1024*4`bytes(4M)，单次发送消息最大长度为`math.MaxInt32`bytes
 	// grpcServer := grpc.NewServer(grpc.MaxRecvMsgSize(1024*1024*4), grpc.MaxSendMsgSize(math.MaxInt32))
 	grpcServer := grpc.NewServer()
 	// 在gRPC服务器注册我们的服务
@@ -54,7 +54,7 @@ func (s *StreamService) Route(ctx context.Context, req *pb.SimpleRequest) (*pb.S
 // ListValue 实现ListValue方法
 func (s *StreamService) ListValue(req *pb.SimpleRequest, srv pb.StreamServer_ListValueServer) error {
 	for n := 0; n < 5; n++ {
-		// 向流中发送消息
+		// 向流中发送消息， 默认每次send送消息最大长度为`math.MaxInt32`bytes
 		err := srv.Send(&pb.StreamResponse{
 			StreamValue: req.Data + strconv.Itoa(n),
 		})

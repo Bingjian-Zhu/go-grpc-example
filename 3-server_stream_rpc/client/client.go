@@ -58,7 +58,7 @@ func listValue() {
 		log.Fatalf("Call ListStr err: %v", err)
 	}
 	for {
-		//Recv() 方法接收服务端消息
+		//Recv() 方法接收服务端消息，默认每次Recv()最大消息长度为`1024*1024*4`bytes(4M)
 		res, err := stream.Recv()
 		// 判断消息流是否已经结束
 		if err == io.EOF {
