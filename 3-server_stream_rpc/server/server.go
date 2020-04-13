@@ -61,8 +61,8 @@ func (s *StreamService) ListValue(req *pb.SimpleRequest, srv pb.StreamServer_Lis
 		if err != nil {
 			return err
 		}
-		//log.Println(n)
-		//time.Sleep(1 * time.Second)
+		// log.Println(n)
+		// time.Sleep(1 * time.Second)
 	}
 	return nil
 }

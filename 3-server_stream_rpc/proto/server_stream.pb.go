@@ -27,7 +27,7 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 // 定义发送请求信息
 type SimpleRequest struct {
 	// 定义发送的参数，采用驼峰命名方式，小写加下划线，如：student_name
-	// 参数类型 参数名 标识号(不可重复)
+	// 请求参数
 	Data                 string   `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
