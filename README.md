@@ -7,3 +7,5 @@
 * [Go gRPC教程-服务端流式RPC（三）](https://bingjian-zhu.github.io/2020/04/13/Go-gRPC%E6%95%99%E7%A8%8B-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B5%81%E5%BC%8FRPC%EF%BC%88%E4%B8%89%EF%BC%89/)
 
 * [Go gRPC教程-客户端流式RPC（四）](https://bingjian-zhu.github.io/2020/04/14/Go-gRPC%E6%95%99%E7%A8%8B-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B5%81%E5%BC%8FRPC%EF%BC%88%E5%9B%9B%EF%BC%89/)
+
+* [Go gRPC教程-双向流式RPC（五）](https://bingjian-zhu.github.io/2020/04/14/Go-gRPC%E6%95%99%E7%A8%8B-%E5%8F%8C%E5%90%91%E6%B5%81%E5%BC%8FRPC%EF%BC%88%E4%BA%94%EF%BC%89/)
