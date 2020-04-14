@@ -36,6 +36,7 @@ func (s *SimpleService) RouteList(srv pb.StreamClient_RouteListServer) error {
 			return err
 		}
 		log.Println(res.StreamData)
+		//return srv.SendAndClose(&pb.SimpleResponse{Value: "ok"})
 	}
 }
 
