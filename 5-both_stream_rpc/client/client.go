@@ -51,7 +51,7 @@ func conversations() {
 	//调用服务端的Conversations方法，获取流
 	stream, err := streamClient.Conversations(context.Background())
 	if err != nil {
-		log.Fatalf("Upload list err: %v", err)
+		log.Fatalf("get conversations stream err: %v", err)
 	}
 	for n := 0; n < 5; n++ {
 		err := stream.Send(&pb.StreamRequest{Question: "stream client rpc " + strconv.Itoa(n)})

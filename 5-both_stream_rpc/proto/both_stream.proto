@@ -19,12 +19,13 @@ message SimpleResponse{
 
 // 定义流式请求信息
 message StreamRequest{
-    //流式请求参数
+    //流请求参数
     string question = 1;
 }
 
 // 定义流式响应信息
 message StreamResponse{
+    //流响应数据
     string answer = 1;
 }
 

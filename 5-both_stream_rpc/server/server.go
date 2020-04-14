@@ -68,6 +68,6 @@ func (s *StreamService) Conversations(srv pb.Stream_ConversationsServer) error {
 			return err
 		}
 		n++
-		log.Printf("from stream client quest: %s", req.Question)
+		log.Printf("from stream client question: %s", req.Question)
 	}
 }
