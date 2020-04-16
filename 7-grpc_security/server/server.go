@@ -35,8 +35,19 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to generate credentials %v", err)
 	}
-	// 新建gRPC服务器实例,并开启TLS认证
-	grpcServer := grpc.NewServer(grpc.Creds(creds))
+	//普通方法：一元拦截器（grpc.UnaryInterceptor）
+	var interceptor grpc.UnaryServerInterceptor
+	interceptor = func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		//拦截普通方法请求，验证Token
+		err = Check(ctx)
+		if err != nil {
+			return
+		}
+		// 继续处理请求
+		return handler(ctx, req)
+	}
+	// 新建gRPC服务器实例,并开启TLS认证和Token认证
+	grpcServer := grpc.NewServer(grpc.Creds(creds), grpc.UnaryInterceptor(interceptor))
 	// 在gRPC服务器注册我们的服务
 	pb.RegisterSimpleServer(grpcServer, &SimpleService{})
 	log.Println(Address + " net.Listing whth TLS and token...")
@@ -49,9 +60,11 @@ func main() {
 
 // Route 实现Route方法
 func (s *SimpleService) Route(ctx context.Context, req *pb.SimpleRequest) (*pb.SimpleResponse, error) {
-	if err := Check(ctx); err != nil {
-		return nil, err
-	}
+	// 添加拦截器后，方法里省略Token认证
+	// //检测Token是否有效
+	// if err := Check(ctx); err != nil {
+	// 	return nil, err
+	// }
 	res := pb.SimpleResponse{
 		Code:  200,
 		Value: "hello " + req.Data,
