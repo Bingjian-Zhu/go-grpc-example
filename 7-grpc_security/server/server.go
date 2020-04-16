@@ -61,6 +61,7 @@ func (s *SimpleService) Route(ctx context.Context, req *pb.SimpleRequest) (*pb.S
 
 // Check 验证token
 func Check(ctx context.Context) error {
+	//从上下文中获取元数据
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return status.Errorf(codes.Unauthenticated, "获取Token失败")
