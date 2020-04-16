@@ -25,7 +25,7 @@ func main() {
 	//构建Token
 	token := auth.Token{
 		AppID:     "grpc_token",
-		AppSecret: "12345",
+		AppSecret: "123456",
 	}
 	// 连接服务器
 	conn, err := grpc.Dial(Address, grpc.WithTransportCredentials(creds), grpc.WithPerRPCCredentials(&token))
