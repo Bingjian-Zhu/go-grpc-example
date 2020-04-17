@@ -11,7 +11,7 @@ import (
 	pb "go-grpc-example/3-server_stream_rpc/proto"
 )
 
-// SimpleService 定义我们的服务
+// StreamService 定义我们的服务
 type StreamService struct{}
 
 const (
