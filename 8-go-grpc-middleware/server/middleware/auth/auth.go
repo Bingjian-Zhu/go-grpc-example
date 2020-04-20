@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
-	grpc_ctxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 )
@@ -26,7 +25,6 @@ func AuthInterceptor(ctx context.Context) (context.Context, error) {
 	if err != nil {
 		return nil, grpc.Errorf(codes.Unauthenticated, " %v", err)
 	}
-	grpc_ctxtags.Extract(ctx).Set("auth.sub", userClaimFromToken(tokenInfo))
 	//使用context.WithValue添加了值后，可以用Value(key)方法获取值
 	newCtx := context.WithValue(ctx, tokenInfo.ID, tokenInfo)
 	//log.Println(newCtx.Value(tokenInfo.ID))

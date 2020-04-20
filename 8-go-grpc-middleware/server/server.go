@@ -9,13 +9,13 @@ import (
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	grpc_zap "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
-	"go.uber.org/zap"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 
 	pb "go-grpc-example/8-go-grpc-middleware/proto"
 	"go-grpc-example/8-go-grpc-middleware/server/middleware/auth"
+	"go-grpc-example/8-go-grpc-middleware/server/middleware/cred"
 	"go-grpc-example/8-go-grpc-middleware/server/middleware/recovery"
+	"go-grpc-example/8-go-grpc-middleware/server/middleware/zap"
 )
 
 // SimpleService 定义我们的服务
@@ -48,37 +48,24 @@ func main() {
 	if err != nil {
 		log.Fatalf("net.Listen err: %v", err)
 	}
-	// 从输入证书文件和密钥文件为服务端构造TLS凭证
-	creds, err := credentials.NewServerTLSFromFile("../pkg/tls/server.pem", "../pkg/tls/server.key")
-	if err != nil {
-		log.Fatalf("Failed to generate credentials %v", err)
-	}
-	logger, err := zap.NewDevelopment()
-	if err != nil {
-		log.Fatalf("failed to initialize zap logger: %v", err)
-	}
 
-	grpc_zap.ReplaceGrpcLogger(logger)
-
-	// 新建gRPC服务器实例,并开启TLS认证和Token认证
-	grpcServer := grpc.NewServer(grpc.Creds(creds),
+	// 新建gRPC服务器实例
+	grpcServer := grpc.NewServer(cred.TLSInterceptor(),
 		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
 			// 	// grpc_ctxtags.StreamServerInterceptor(),
 			// 	// grpc_opentracing.StreamServerInterceptor(),
 			// 	// grpc_prometheus.StreamServerInterceptor,
 			// 	// grpc_zap.StreamServerInterceptor(zapLogger),
 			// 	grpc_auth.UnaryServerInterceptor(auth.AuthInterceptor),
-			grpc_recovery.StreamServerInterceptor(
-				grpc_recovery.WithRecoveryHandler(recovery.RecoveryInterceptor)),
+			grpc_recovery.StreamServerInterceptor(recovery.RecoveryInterceptor()),
 		)),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 			// grpc_ctxtags.UnaryServerInterceptor(),
 			// grpc_opentracing.UnaryServerInterceptor(),
 			// grpc_prometheus.UnaryServerInterceptor,
-			grpc_zap.UnaryServerInterceptor(logger),
+			grpc_zap.UnaryServerInterceptor(zap.ZapInterceptor()),
 			grpc_auth.UnaryServerInterceptor(auth.AuthInterceptor),
-			grpc_recovery.UnaryServerInterceptor(
-				grpc_recovery.WithRecoveryHandler(recovery.RecoveryInterceptor)),
+			grpc_recovery.UnaryServerInterceptor(recovery.RecoveryInterceptor()),
 		)),
 	)
 	// 在gRPC服务器注册我们的服务

@@ -6,8 +6,9 @@ import (
 	"google.golang.org/grpc/codes"
 )
 
-var customFunc grpc_recovery.RecoveryHandlerFunc
-
-func RecoveryInterceptor(p interface{}) (err error) {
-	return grpc.Errorf(codes.Unknown, "panic triggered: %v", p)
+// RecoveryInterceptor panic时返回Unknown错误吗
+func RecoveryInterceptor() grpc_recovery.Option {
+	return grpc_recovery.WithRecoveryHandler(func(p interface{}) (err error) {
+		return grpc.Errorf(codes.Unknown, "panic triggered: %v", p)
+	})
 }
