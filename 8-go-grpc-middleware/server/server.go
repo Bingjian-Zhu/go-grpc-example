@@ -52,11 +52,11 @@ func main() {
 	// 新建gRPC服务器实例
 	grpcServer := grpc.NewServer(cred.TLSInterceptor(),
 		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
-			// 	// grpc_ctxtags.StreamServerInterceptor(),
-			// 	// grpc_opentracing.StreamServerInterceptor(),
-			// 	// grpc_prometheus.StreamServerInterceptor,
-			// 	// grpc_zap.StreamServerInterceptor(zapLogger),
-			// 	grpc_auth.UnaryServerInterceptor(auth.AuthInterceptor),
+			// grpc_ctxtags.StreamServerInterceptor(),
+			// grpc_opentracing.StreamServerInterceptor(),
+			// grpc_prometheus.StreamServerInterceptor,
+			grpc_zap.StreamServerInterceptor(zap.ZapInterceptor()),
+			grpc_auth.StreamServerInterceptor(auth.AuthInterceptor),
 			grpc_recovery.StreamServerInterceptor(recovery.RecoveryInterceptor()),
 		)),
 		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
