@@ -15,7 +15,7 @@ type TokenInfo struct {
 	Roles []string
 }
 
-// AuthInterceptor 认证拦截器，对`authorization:bearer token`形式的Token验证
+// AuthInterceptor 认证拦截器，对以authorization为头部，形式为`bearer token`的Token进行验证
 func AuthInterceptor(ctx context.Context) (context.Context, error) {
 	token, err := grpc_auth.AuthFromMD(ctx, "bearer")
 	if err != nil {
@@ -40,7 +40,6 @@ func parseToken(token string) (TokenInfo, error) {
 		return tokenInfo, nil
 	}
 	return tokenInfo, errors.New("Token无效: bearer " + token)
-
 }
 
 //从token中获取用户唯一标识
