@@ -20,3 +20,5 @@
 * [Go gRPC进阶-TLS认证+自定义方法认证（七）](https://bingjian-zhu.github.io/2020/04/16/Go-gRPC%E8%BF%9B%E9%98%B6-TLS%E8%AE%A4%E8%AF%81-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95%E8%AE%A4%E8%AF%81%EF%BC%88%E4%B8%83%EF%BC%89/)
 
 * [Go gRPC进阶-go-grpc-middleware使用（八）](https://bingjian-zhu.github.io/2020/04/22/Go-gRPC%E8%BF%9B%E9%98%B6-go-grpc-middleware%E4%BD%BF%E7%94%A8%EF%BC%88%E5%85%AB%EF%BC%89/)
+
+* [Go gRPC进阶-proto数据验证（九）](https://bingjian-zhu.github.io/2020/04/23/Go-gRPC%E8%BF%9B%E9%98%B6-proto%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88%E4%B9%9D%EF%BC%89/)
