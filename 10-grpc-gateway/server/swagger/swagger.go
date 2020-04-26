@@ -9,6 +9,7 @@ import (
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 )
 
+//ServeSwaggerFile 把proto文件夹中的swagger.json文件暴露出去
 func ServeSwaggerFile(w http.ResponseWriter, r *http.Request) {
 	if !strings.HasSuffix(r.URL.Path, "swagger.json") {
 		log.Printf("Not Found: %s", r.URL.Path)
@@ -24,6 +25,7 @@ func ServeSwaggerFile(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, p)
 }
 
+//ServeSwaggerUI 对外提供swagger-ui
 func ServeSwaggerUI(mux *http.ServeMux) {
 	fileServer := http.FileServer(&assetfs.AssetFS{
 		Asset:    Asset,
