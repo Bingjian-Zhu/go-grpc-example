@@ -18,6 +18,7 @@ func ServeSwaggerFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p := strings.TrimPrefix(r.URL.Path, "/swagger/")
+	// "../proto/"为.swagger.json所在目录
 	p = path.Join("../proto/", p)
 
 	log.Printf("Serving swagger-file: %s", p)
@@ -30,7 +31,7 @@ func ServeSwaggerUI(mux *http.ServeMux) {
 	fileServer := http.FileServer(&assetfs.AssetFS{
 		Asset:    Asset,
 		AssetDir: AssetDir,
-		Prefix:   "swagger/swagger-ui",
+		Prefix:   "swagger/swagger-ui", //swagger-ui文件夹所在目录
 	})
 	prefix := "/swagger-ui/"
 	mux.Handle(prefix, http.StripPrefix(prefix, fileServer))

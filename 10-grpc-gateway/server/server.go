@@ -12,7 +12,6 @@ import (
 	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/grpclog"
 
 	pb "go-grpc-example/10-grpc-gateway/proto"
 	"go-grpc-example/10-grpc-gateway/server/gateway"
@@ -66,9 +65,10 @@ func main() {
 	// 在gRPC服务器注册我们的服务
 	pb.RegisterSimpleServer(grpcServer, &SimpleService{})
 	log.Println(Address + " net.Listing whth TLS and token...")
-	srv := gateway.ProvideHTTP(Address, grpcServer)
+	//使用gateway把grpcServer转成httpServer
+	httpServer := gateway.ProvideHTTP(Address, grpcServer)
 	//用服务器 Serve() 方法以及我们的端口信息区实现阻塞等待，直到进程被杀死或者 Stop() 被调用
-	if err = srv.Serve(tls.NewListener(listener, srv.TLSConfig)); err != nil {
-		grpclog.Fatal("ListenAndServe: ", err)
+	if err = httpServer.Serve(tls.NewListener(listener, httpServer.TLSConfig)); err != nil {
+		log.Fatal("ListenAndServe: ", err)
 	}
 }
