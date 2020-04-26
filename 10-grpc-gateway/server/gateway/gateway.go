@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	pb "go-grpc-example/10-grpc-gateway/proto"
+	"go-grpc-example/10-grpc-gateway/server/swagger"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/http2"
@@ -34,6 +35,8 @@ func ProvideHTTP(endpoint string, grpcServer *grpc.Server) *http.Server {
 	}
 	mux := http.NewServeMux()
 	mux.Handle("/", gwmux)
+	mux.HandleFunc("/swagger/", swagger.ServeSwaggerFile)
+	swagger.ServeSwaggerUI(mux)
 	log.Println(endpoint + " HTTP.Listing whth TLS and token...")
 	return &http.Server{
 		Addr:      endpoint,

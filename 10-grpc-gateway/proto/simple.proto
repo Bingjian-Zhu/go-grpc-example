@@ -3,7 +3,8 @@ syntax = "proto3";
 package proto;
 
 import "github.com/mwitkow/go-proto-validators/validator.proto";
-import "google/api/annotations.proto";
+import "go-grpc-example/10-grpc-gateway/proto/google/api/annotations.proto";
+import "go-grpc-example/10-grpc-gateway/proto/google/options/annotations.proto";
 
 message InnerMessage {
   // some_integer can only be in range (1, 100).
@@ -19,11 +20,45 @@ message OuterMessage {
   InnerMessage inner = 2 [(validator.field) = {msg_exists : true}];
 }
 
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  security_definitions: {
+    security: {
+      key: "bearer"
+      value: {
+        type: TYPE_API_KEY
+        in: IN_HEADER
+        name: "Authorization"
+        description: "Authentication token, prefixed by Bearer: Bearer <token>"
+      }
+    }
+  }
+
+  security: {
+    security_requirement: {
+      key: "bearer"
+    }
+  }
+
+  info: {
+		title: "grpc gateway sample";
+		version: "1.0";	
+		license: {
+			name: "MIT";			
+		};
+  }
+
+  schemes: HTTPS
+};
+
 service Simple{
   rpc Route (InnerMessage) returns (OuterMessage){
       option (google.api.http) ={
           post:"/v1/example/route"
           body:"*"
       };
-  };
+      // //禁用bearer token
+      // option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+      //   security: { } // Disable security key
+      // };
+  }
 }
