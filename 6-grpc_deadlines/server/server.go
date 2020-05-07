@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net"
+	"runtime"
 	"time"
 
 	"google.golang.org/grpc"
@@ -44,39 +45,31 @@ func main() {
 
 // Route 实现Route方法
 func (s *SimpleService) Route(ctx context.Context, req *pb.SimpleRequest) (*pb.SimpleResponse, error) {
-	timeout := make(chan struct{}, 1)
 	data := make(chan *pb.SimpleResponse, 1)
-	go func() {
-		time.Sleep(4 * time.Second)
+	go handle(ctx, req, data)
+	select {
+	case res := <-data:
+		return res, nil
+	case <-ctx.Done():
+		return nil, status.Errorf(codes.Canceled, "Client cancelled, abandoning.")
+	}
+}
+
+func handle(ctx context.Context, req *pb.SimpleRequest, data chan<- *pb.SimpleResponse) {
+	select {
+	case <-ctx.Done():
+		log.Println(ctx.Err())
+		runtime.Goexit() //超时后退出该Go协程
+	case <-time.After(4 * time.Second): // 模拟耗时操作
 		res := pb.SimpleResponse{
 			Code:  200,
 			Value: "hello " + req.Data,
 		}
-		log.Println("goroutine still running")
+		// //修改数据库前进行超时判断
+		// if ctx.Err() == context.Canceled{
+		// 	...
+		// 	//如果已经超时，则退出
+		// }
 		data <- &res
-	}()
-	go func() {
-		for {
-			if ctx.Err() == context.Canceled {
-				timeout <- struct{}{}
-			}
-		}
-	}()
-	select {
-	case res := <-data:
-		return res, nil
-	case <-timeout:
-		return nil, status.Errorf(codes.Canceled, "Client cancelled, abandoning.")
 	}
-	// for n := 0; n <= 5; n++ {
-	// 	if ctx.Err() == context.Canceled {
-	// 		return nil, status.Errorf(codes.Canceled, "Client cancelled, abandoning.")
-	// 	}
-	// 	time.Sleep(1 * time.Second)
-	// }
-	// res := pb.SimpleResponse{
-	// 	Code:  200,
-	// 	Value: "hello " + req.Data,
-	// }
-	// return &res, nil
 }
