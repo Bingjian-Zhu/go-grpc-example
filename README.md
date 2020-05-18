@@ -24,3 +24,7 @@
 * [Go gRPC进阶-proto数据验证（九）](https://bingjian-zhu.github.io/2020/04/23/Go-gRPC%E8%BF%9B%E9%98%B6-proto%E6%95%B0%E6%8D%AE%E9%AA%8C%E8%AF%81%EF%BC%88%E4%B9%9D%EF%BC%89/)
 
 * [Go gRPC进阶-gRPC转换HTTP（十）](https://bingjian-zhu.github.io/2020/04/26/Go-gRPC%E8%BF%9B%E9%98%B6-gRPC%E8%BD%AC%E6%8D%A2HTTP%EF%BC%88%E5%8D%81%EF%BC%89/)
+
+### 关于gRPC负载均衡
+
+* [gRPC负载均衡（客户端负载均衡）](https://bingjian-zhu.github.io/2020/05/18/gRPC%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%88%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%89/)
